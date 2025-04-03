@@ -1,0 +1,7 @@
+import os
+
+class DataIngestionConfig:
+    def __init__(self, bucket_name="driver-sleep-detection-data", local_data_path="data"):
+        self.bucket_name = bucket_name
+        self.local_data_path = local_data_path  # Folder to save data
+        os.makedirs(self.local_data_path, exist_ok=True)  # Ensure directory exists

@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "driver_sleep_detection"
+version = "0.1.0"  # ✅ Correct version format
+dependencies = [
+    "numpy",
+    "pandas",
+    "matplotlib",
+    "seaborn",
+    "scipy",
+    "opencv-python",
+    "dlib",
+    "mediapipe",
+    "tensorflow",
+    "keras",
+    "scikit-learn",
+    "torch",
+    "torchvision",
+    "torchaudio",
+    "face-recognition",
+    "imutils",
+    "pymongo",
+    "flask",
+    "loguru"
+]

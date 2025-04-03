@@ -1,0 +1,32 @@
+# Core Libraries
+numpy
+pandas
+matplotlib
+seaborn
+scipy
+
+# Computer Vision
+opencv-python
+dlib
+mediapipe
+
+# Deep Learning & Machine Learning
+tensorflow
+keras
+scikit-learn
+torch
+torchvision
+torchaudio
+
+# Face Detection & Eye Tracking
+face-recognition
+imutils
+
+# Database (MongoDB)
+pymongo
+
+# Web Framework (Optional for API Deployment)
+flask
+
+# Logging & Utilities
+loguru
