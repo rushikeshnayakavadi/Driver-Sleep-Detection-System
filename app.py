@@ -3,12 +3,22 @@ from pymongo import MongoClient
 from werkzeug.security import generate_password_hash, check_password_hash
 import cv2
 
+
 app = Flask(__name__)
-app.secret_key = "your_secret_key"  # for session
+app.secret_key = "your_secret_key"  
+
+from src.routes.auth_routes import auth_bp
+
+app.register_blueprint(auth_bp)
+
+from src.routes.main_routes import main_bp
+app.register_blueprint(main_bp)
+
+
 
 # MongoDB setup
 client = MongoClient("mongodb://localhost:27017/")
-db = client['driver_sleep_db']
+db = client['driver_sleep']
 users_collection = db['users']
 
 # -------------------- ROUTES --------------------

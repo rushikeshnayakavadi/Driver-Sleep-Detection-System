@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - Driver Sleep Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="login-container">
+        <h2>Welcome, {{ user_name }} 👋</h2>
+        <p>You are logged in. Start the Driver Sleep Detection System below:</p>
+
+        <form action="{{ url_for('start_detection') }}" method="POST">
+            <button type="submit" class="btn">Start Detection</button>
+        </form>
+
+        <br>
+        <form action="{{ url_for('logout') }}" method="POST">
+            <button type="submit" class="btn" style="background-color: #e74c3c;">Logout</button>
+        </form>
+    </div>
+</body>
+</html>
