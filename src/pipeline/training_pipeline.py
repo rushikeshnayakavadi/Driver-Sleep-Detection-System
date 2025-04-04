@@ -1,28 +1,19 @@
-import logging
-from src.components.data_ingestion import DataIngestion
-from src.entity.config_entity import DataIngestionConfig
-
-# Configure logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+from components.data_validation import DataValidation
+from src.entity.config_entity import DataValidationConfig
+import pandas as pd
 
 def start_training_pipeline():
-    """Runs the complete training pipeline."""
-    logging.info("Starting Training Pipeline...")
+    # Load data
+    df = pd.read_csv("data/train_labels.csv")  # Adjust path if needed
 
-    try:
-        ingestion_config = DataIngestionConfig(local_data_path="data/")
-        ingestion = DataIngestion(ingestion_config)
+    # Data Validation
+    validation_config = DataValidationConfig(
+        schema_file_path="config/schema.yaml",
+        report_file_path="reports/data_validation.json"
+    )
 
-        logging.info("Initiating Data Ingestion...")
-        result = ingestion.initiate_data_ingestion()
+    data_validator = DataValidation(validation_config)
+    validation_result = data_validator.initiate_data_validation(df)
 
-        if result:
-            logging.info("Data Ingestion Completed Successfully!")
-        else:
-            logging.error("Data Ingestion Failed.")
-
-    except Exception as e:
-        logging.error(f"Training Pipeline Failed: {e}")
-
-if __name__ == "__main__":
-    start_training_pipeline()
+    if not validation_result.validation_status:
+        raise Exception("Data validation failed. Check the report.")
