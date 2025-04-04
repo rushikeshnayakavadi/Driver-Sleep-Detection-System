@@ -54,5 +54,5 @@ class ModelTrainer:
         """Train the CNN model"""
         self.model.fit(np.array(X_train), np.array(y_train), epochs=epochs, batch_size=batch_size,
                        validation_data=(np.array(X_test), np.array(y_test)))
-        print("✅ Model Training Completed")
+        print("Model Training Completed")
         return self.model

@@ -13,3 +13,19 @@ class DataValidationConfig:
     test_dir: str   # Add this
     schema_file_path: str
     report_file_path: str
+
+@dataclass
+class DataTransformationConfig:
+    target_size: tuple 
+    normalization_mean: list  
+    normalization_std: list  
+    transformed_data_dir: str  
+
+@dataclass
+class ModelTrainerConfig:
+    model_save_path: str
+    learning_rate: float
+    batch_size: int
+    epochs: int 
+    image_size: tuple = (224, 224)
+
