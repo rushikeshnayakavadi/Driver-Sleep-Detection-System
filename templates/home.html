@@ -1,3 +1,4 @@
+<!-- templates/home.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,45 +26,27 @@
             border-radius: 10px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            margin: 10px;
         }
 
         button:hover {
             background-color: #0056b3;
         }
-
-        #camera-section {
-            margin-top: 40px;
-            display: none;
-        }
-
-        video {
-            border: 4px solid #007bff;
-            border-radius: 12px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.2);
-        }
     </style>
 </head>
 <body>
     <h2>Welcome to Driver Sleep Detection System</h2>
-    <button onclick="startCar()">Start Car</button>
 
-    <div id="camera-section">
-        <h3>Camera Started </h3>
-        <video id="webcam" width="640" height="480" autoplay></video>
-    </div>
+    <!-- Start Car Button -->
+    <form method="POST" action="/start-detection">
+        <button type="submit">Start Detection</button>
+    </form>
+    
 
-    <script>
-        function startCar() {
-            document.getElementById("camera-section").style.display = "block";
-
-            navigator.mediaDevices.getUserMedia({ video: true })
-                .then(function(stream) {
-                    document.getElementById('webcam').srcObject = stream;
-                })
-                .catch(function(err) {
-                    console.log("Error accessing webcam: ", err);
-                });
-        }
-    </script>
+    <!-- Predict Button -->
+    <form method="POST" action="/predict">
+        <button type="submit">Predict</button>
+    </form>
+    
 </body>
 </html>

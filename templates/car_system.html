@@ -1,0 +1,21 @@
+<!-- templates/car_system.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Car System</title>
+</head>
+<body style="text-align: center; font-family: Arial;">
+    <h2>Live Webcam - Sleep Detection</h2>
+    <img src="{{ url_for('video_feed') }}" width="640" height="480">
+
+    <form action="{{ url_for('predict') }}" method="POST" style="margin-top: 20px;">
+        <button type="submit">Predict</button>
+    </form>
+
+    <br>
+    <form action="{{ url_for('logout') }}" method="POST">
+        <button type="submit">Logout</button>
+    </form>
+</body>
+</html>

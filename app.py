@@ -3,25 +3,14 @@ from pymongo import MongoClient
 from werkzeug.security import generate_password_hash, check_password_hash
 import cv2
 
-
 app = Flask(__name__)
-app.secret_key = "your_secret_key"  
-
-from src.routes.auth_routes import auth_bp
-
-app.register_blueprint(auth_bp)
-
-from src.routes.main_routes import main_bp
-app.register_blueprint(main_bp)
-
-
+app.secret_key = "your_secret_key"
 
 # MongoDB setup
-client = MongoClient("mongodb://localhost:27017/")
+# client = MongoClient("mongodb+srv://rushikeshnayakavadi:KoppEuYvJKrnXQyI@project1.137egka.mongodb.net/?retryWrites=true&w=majority&ssl=true")
+client = MongoClient("mongodb+srv://rushikeshnayakavadi:KoppEuYvJKrnXQyI@project1.137egka.mongodb.net/?retryWrites=true&w=majority&appName=project1")
 db = client['driver_sleep']
 users_collection = db['users']
-
-# -------------------- ROUTES --------------------
 
 @app.route('/')
 def index():
@@ -30,34 +19,41 @@ def index():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
-        username = request.form['username']
+        name = request.form['name']
+        email = request.form['email']
         password = request.form['password']
+        confirm_password = request.form['confirm_password']
 
-        # Check if user already exists
-        if users_collection.find_one({'username': username}):
-            return "Username already exists. Try a different one."
+        if password != confirm_password:
+            return "Passwords do not match."
+
+        if users_collection.find_one({'email': email}):
+            return "Email already exists."
 
         hashed_pw = generate_password_hash(password)
-        users_collection.insert_one({'username': username, 'password': hashed_pw})
+        users_collection.insert_one({
+            'name': name,
+            'email': email,
+            'password': hashed_pw
+        })
 
         return redirect(url_for('login'))
-    return render_template('signup.html')
 
+    return render_template('signup.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form['username']
+        email = request.form['email']
         password = request.form['password']
 
-        user = users_collection.find_one({'username': username})
+        user = users_collection.find_one({'email': email})
         if user and check_password_hash(user['password'], password):
-            session['username'] = username
+            session['username'] = user['name']
             return redirect(url_for('dashboard'))
         else:
             return "Invalid credentials"
     return render_template('login.html')
-
 
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
@@ -69,8 +65,6 @@ def dashboard():
 def logout():
     session.pop('username', None)
     return redirect(url_for('login'))
-
-# -------------------- WEBCAM DETECTION ROUTES --------------------
 
 @app.route('/start-detection', methods=['POST'])
 def start_detection():
@@ -85,16 +79,13 @@ def generate_frames():
         if not success:
             break
 
-        # you can run your detection logic here
+        # detection logic can be added here
 
-        # encode frame
         ret, buffer = cv2.imencode('.jpg', frame)
         frame = buffer.tobytes()
 
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-
-# -------------------- MAIN --------------------
 
 if __name__ == '__main__':
     app.run(debug=True)
